@@ -76,4 +76,6 @@ int vector_push(Vector *v, const void *elem)
 
 int vector_pop(Vector *v, void *out)
 {
+    if (v == NULL || v->size == 0)
+        return -1;
 }
