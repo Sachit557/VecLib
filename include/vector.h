@@ -5,10 +5,10 @@
 
 typedef struct
 {
-    void *data;
-    size_t elem_size;
-    size_t size;
-    size_t capacity;
+    void *data;       // stored data
+    size_t elem_size; // size of the element to be stored (in bytes)
+    size_t size;      // current size of the vector
+    size_t capacity;  // total capacity of the vector
 } Vector;
 
 int vector_init(Vector *v, size_t elem_size);
