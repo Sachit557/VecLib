@@ -130,15 +130,20 @@ int vector_resize(Vector *v, size_t new_size)
     if (v->size == new_size)
         return 1;
 
-    if (v->size > new_size)
-        v->size = new_size;
-
-    else if (new_size > v->size && new_size <= v->capacity)
+    if (v->size > new_size || (new_size > v->size && new_size <= v->capacity))
         v->size = new_size;
 
     else
     {
-        // allocation
+        char *newdata = realloc(v->data, new_size * v->elem_size);
+
+        if (newdata == NULL)
+            return -1;
+
+        v->data = newdata;
+        v->capacity = new_size;
+
+        // fill the newly allocated space with 0 ( oh damn shouldve used calloc :skull:)
     }
 
     return 0;
@@ -147,13 +152,15 @@ int vector_resize(Vector *v, size_t new_size)
 size_t vector_size(Vector *v)
 {
     if (v == NULL)
-        return -1;
+        return 0;
+
     return v->size;
 }
 
 size_t vector_capacity(Vector *v)
 {
     if (v == NULL)
-        return -1;
+        return 0;
+
     return v->capacity;
 }
