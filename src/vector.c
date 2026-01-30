@@ -128,22 +128,38 @@ int vector_resize(Vector *v, size_t new_size)
         return -1;
 
     if (v->size == new_size)
-        return 1;
+        return 0;
 
     if (v->size > new_size || (new_size > v->size && new_size <= v->capacity))
         v->size = new_size;
 
     else
     {
-        char *newdata = realloc(v->data, new_size * v->elem_size);
+        size_t new_capacity = 0;
+
+        if (v->capacity == 0)
+            new_capacity = 1;
+        else
+            new_capacity = v->capacity * 2;
+
+        while (new_size > new_capacity)
+            new_capacity *= 2;
+
+        char *newdata = realloc(v->data, new_capacity * v->elem_size);
 
         if (newdata == NULL)
             return -1;
 
         v->data = newdata;
-        v->capacity = new_size;
+        v->capacity = new_capacity;
 
-        // fill the newly allocated space with 0 ( oh damn shouldve used calloc :skull:)
+        size_t nums = v->capacity - v->size;
+
+        for (int i = 0; i < nums; i++)
+        {
+            char *dest = (char *)v->data + (v->size + i) * v->elem_size;
+            memcpy(dest, 0, v->elem_size);
+        }
     }
 
     return 0;
