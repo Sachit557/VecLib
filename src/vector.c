@@ -47,31 +47,15 @@ int vector_push(Vector *v, const void *elem)
     if (v == NULL || elem == NULL)
         return -1;
 
-    if (v->size >= v->capacity)
+    if (v->size < v->capacity)
     {
-        size_t capacity = 0;
-        if (v->capacity == 0)
-            capacity = 1;
-        else
-            capacity = v->capacity * 2;
-
-        void *data = realloc(v->data, capacity * v->elem_size);
-
-        if (data == NULL)
-            return -1;
-
-        v->data = data;
-        v->capacity = capacity;
+        // there is room
     }
 
-    char *data = (char *)v->data + v->elem_size * v->size;
-    char *src = (char *)elem;
-
-    for (size_t i = 0; i < v->elem_size; i++)
-        data[i] = src[i];
-    v->size++;
-
-    return 0;
+    else
+    {
+        // increase storage
+    }
 }
 
 int vector_pop(Vector *v, void *out)
