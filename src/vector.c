@@ -12,9 +12,14 @@ int vector_push(Vector *v, const void *elem);
 int vector_pop(Vector *v, void *out);
 void *vector_get(Vector *v, size_t index);
 
-int main(void)
-{
-}
+int vector_set(Vector *v, size_t index, const void *elem);
+void vector_clear(Vector *v);
+int vector_resize(Vector *v, size_t new_size);
+size_t vector_size(Vector *v);
+size_t vector_capacity(Vector *v);
+
+void vector_insert(Vector *v, const void *elem, size_t index);
+void vector_remove(Vector *v, const void *elem, size_t index);
 
 int vector_init(Vector *v, size_t elem_size)
 {
@@ -83,8 +88,72 @@ int vector_pop(Vector *v, void *out)
         memcpy(out, dest, v->elem_size);
 
     v->size--;
+
+    return 0;
 }
 
 void *vector_get(Vector *v, size_t index)
 {
+    if (v == NULL || index > v->size - 1)
+        return NULL;
+
+    char *dest = (char *)v->data + (v->elem_size * index);
+
+    return (void *)dest;
+}
+
+int vector_set(Vector *v, size_t index, const void *elem)
+{
+    if (v == NULL || index > v->size - 1 || elem == NULL)
+        return -1;
+
+    char *dest = (char *)v->data + (index * v->elem_size);
+
+    memcpy(dest, elem, v->elem_size);
+
+    return 0;
+}
+
+void vector_clear(Vector *v)
+{
+    if (v == NULL)
+        return;
+
+    v->size = 0;
+}
+
+int vector_resize(Vector *v, size_t new_size)
+{
+    if (v == NULL)
+        return -1;
+
+    if (v->size == new_size)
+        return 1;
+
+    if (v->size > new_size)
+        v->size = new_size;
+
+    else if (new_size > v->size && new_size <= v->capacity)
+        v->size = new_size;
+
+    else
+    {
+        // allocation
+    }
+
+    return 0;
+}
+
+size_t vector_size(Vector *v)
+{
+    if (v == NULL)
+        return -1;
+    return v->size;
+}
+
+size_t vector_capacity(Vector *v)
+{
+    if (v == NULL)
+        return -1;
+    return v->capacity;
 }
