@@ -160,31 +160,22 @@ size_t vector_capacity(Vector *v)
 void vector_insert(Vector *v, const void *elem, size_t index)
 {
 
-    if (v == NULL || elem == NULL || index > v->size - 1)
+    if (v == NULL || elem == NULL || index > v->size)
         return;
 
-    size_t capacity = 0;
-    size_t last_index = v->size - 1;
-    size_t indexes = v->size - last_index;
-
-    if (v->capacity == v->size)
+    if (v->size == v->capacity)
     {
+        size_t cap;
+
         if (v->capacity == 0)
-            capacity = 1;
+            cap = 1;
 
         else
-            capacity = v->capacity * 2;
-    }
+            cap = 2 * v->capacity;
 
-    v->capacity = capacity;
+        void *data = realloc(v->data, cap * v->elem_size);
 
-    char *dest = (char *)v->data + (index * v->elem_size);
-
-    char *data = malloc((last_index - index) * v->elem_size);
-
-    memcpy(dest, elem, v->elem_size);
-
-    while (indexes--)
-    {
+        v->data = data;
+        v->capacity = cap;
     }
 }
