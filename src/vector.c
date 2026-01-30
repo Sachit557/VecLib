@@ -135,31 +135,7 @@ int vector_resize(Vector *v, size_t new_size)
 
     else
     {
-        size_t new_capacity = 0;
-
-        if (v->capacity == 0)
-            new_capacity = 1;
-        else
-            new_capacity = v->capacity * 2;
-
-        while (new_size > new_capacity)
-            new_capacity *= 2;
-
-        char *newdata = realloc(v->data, new_capacity * v->elem_size);
-
-        if (newdata == NULL)
-            return -1;
-
-        v->data = newdata;
-        v->capacity = new_capacity;
-
-        size_t nums = v->capacity - v->size;
-
-        for (int i = 0; i < nums; i++)
-        {
-            char *dest = (char *)v->data + (v->size + i) * v->elem_size;
-            memcpy(dest, 0, v->elem_size);
-        }
+        // finish this func
     }
 
     return 0;
@@ -179,4 +155,36 @@ size_t vector_capacity(Vector *v)
         return 0;
 
     return v->capacity;
+}
+
+void vector_insert(Vector *v, const void *elem, size_t index)
+{
+
+    if (v == NULL || elem == NULL || index > v->size - 1)
+        return;
+
+    size_t capacity = 0;
+    size_t last_index = v->size - 1;
+    size_t indexes = v->size - last_index;
+
+    if (v->capacity == v->size)
+    {
+        if (v->capacity == 0)
+            capacity = 1;
+
+        else
+            capacity = v->capacity * 2;
+    }
+
+    v->capacity = capacity;
+
+    char *dest = (char *)v->data + (index * v->elem_size);
+
+    char *data = malloc((last_index - index) * v->elem_size);
+
+    memcpy(dest, elem, v->elem_size);
+
+    while (indexes--)
+    {
+    }
 }
