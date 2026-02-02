@@ -179,3 +179,7 @@ void vector_insert(Vector *v, const void *elem, size_t index)
         v->capacity = cap;
     }
 }
+
+void vector_remove(Vector *v, const void *elem, size_t index)
+{
+}
