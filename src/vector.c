@@ -2,7 +2,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stddef.h>
 #include "vector.h"
 
 int vector_init(Vector *v, size_t elem_size);
@@ -178,8 +177,11 @@ void vector_insert(Vector *v, const void *elem, size_t index)
         v->data = data;
         v->capacity = cap;
     }
+    // finish this
 }
 
 void vector_remove(Vector *v, const void *elem, size_t index)
 {
+    if (v == NULL || elem == NULL)
+        return;
 }
