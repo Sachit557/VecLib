@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    Vector v1;
+    Vector v;
     vector_init(&v, sizeof(int));
 
     for (int i = 0; i < 11; i++)
