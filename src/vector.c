@@ -19,7 +19,7 @@ size_t vector_size(Vector *v);
 size_t vector_capacity(Vector *v);
 
 void vector_insert_at(Vector *v, const void *elem, size_t index);
-void vector_remove_at(Vector *v, size_t index);
+void vector_remove_at(Vector *v, const void *elem, size_t index);
 
 int vector_init(Vector *v, size_t elem_size)
 {
@@ -208,7 +208,7 @@ void vector_insert_at(Vector *v, const void *elem, size_t index)
     char *base_pos = (char *)v->data;
 }
 
-void vector_remove_at(Vector *v, size_t index)
+void vector_remove_at(Vector *v, const void *elem, size_t index)
 {
     if (v == NULL || index >= v->size)
         return;
