@@ -24,7 +24,7 @@ int vector_resize(Vector *v, size_t new_size);
 size_t vector_size(Vector *v);     // returns the size of the vector
 size_t vector_capacity(Vector *v); // returns the capacity of the vector
 
-void vector_insert(Vector *v, const void *elem, size_t index);
-void vector_remove(Vector *v, const void *elem, size_t index);
+void vector_insert_at(Vector *v, const void *elem, size_t index);
+void vector_remove_at(Vector *v, const void *elem, size_t index);
 
 #endif

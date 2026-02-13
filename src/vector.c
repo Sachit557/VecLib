@@ -18,7 +18,7 @@ int vector_resize(Vector *v, size_t new_size);
 size_t vector_size(Vector *v);
 size_t vector_capacity(Vector *v);
 
-void vector_insert(Vector *v, const void *elem, size_t index);
+void vector_insert_at(Vector *v, const void *elem, size_t index);
 void vector_remove_at(Vector *v, size_t index);
 
 int vector_init(Vector *v, size_t elem_size)
@@ -131,12 +131,35 @@ int vector_resize(Vector *v, size_t new_size)
         return 0;
 
     if (v->size > new_size || (new_size > v->size && new_size <= v->capacity))
+    {
         v->size = new_size;
+        return 0;
+    }
 
     else
     {
         // finish this func
+        size_t capacity = v->capacity;
+
+        if (capacity == 0)
+            capacity = 1;
+        else
+            while (capacity < new_size)
+                capacity *= 2;
+
+        void *new_data = realloc(v->data, v->capacity * v->elem_size);
+
+        if (new_data == NULL)
+            return -1;
+
+        v->capacity = capacity;
+        v->data = new_data;
+        v->size = new_size;
+
+        return 0;
     }
+
+    // can initialize v->data with some value cause extra allocated memory contains garbage values
 
     return 0;
 }
@@ -157,7 +180,7 @@ size_t vector_capacity(Vector *v)
     return v->capacity;
 }
 
-void vector_insert(Vector *v, const void *elem, size_t index)
+void vector_insert_at(Vector *v, const void *elem, size_t index)
 {
 
     if (v == NULL || elem == NULL || index > v->size)
@@ -175,10 +198,14 @@ void vector_insert(Vector *v, const void *elem, size_t index)
 
         void *data = realloc(v->data, cap * v->elem_size);
 
+        if (data == NULL)
+            return;
+
         v->data = data;
         v->capacity = cap;
     }
-    // finish this
+
+    char *base_pos = (char *)v->data;
 }
 
 void vector_remove_at(Vector *v, size_t index)
