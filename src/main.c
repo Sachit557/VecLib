@@ -3,20 +3,17 @@
 
 int main(void)
 {
-    Vector v;
-    vector_init(&v, sizeof(int));
+    Vector vec;
+    vector_init(&vec, sizeof(int));
 
-    for (int i = 0; i < 11; i++)
-    {
-        vector_push(&v, &i);
-    }
-    int i = 99;
-    vector_set(&v, 5, &i);
-    printf("%d \n", *(int *)vector_get(&v, 5));
+    for (int i = 0; i < 100; i++)
+        vector_push(&vec, &i);
+    for (int i = 0; i < 100; i++)
+        printf("%d ", *(int *)vector_get(&vec, i));
 
-    for (int i = 0; i < 11; i++)
-        printf("%d \n", *(int *)vector_get(&v, i));
+    printf("\nVal at index %d is %d", 10, *(int *)vector_get(&vec, 5));
 
-    printf("%d", vector_size(&v));
+    printf("Size is %zu and capacity is %zu", vector_size(&vec), vector_capacity(&vec));
+
     return 0;
 }
